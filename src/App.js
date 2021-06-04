@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./index.css"
+
+import { InputTodo } from "./components/InputTodo";
+import { ListTodos } from "./components/ListTodos";
+import { Footer } from "./components/Footer";
+import { ToggleTodos } from "./components/ToggleTodos";
+import {useSelector} from "react-redux";
 
 function App() {
+
+    const todos = useSelector(state => state.todosReducer);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <section className="todoapp">
+          <header className="header">
+              <h1>todos</h1>
+              <InputTodo/>
+          </header>
+          <section className="main">
+              {todos.length > 0 && (<ToggleTodos/>)}
+              <ListTodos/>
+          </section>
+          {todos.length > 0 && (<Footer/>)}
+      </section>
   );
 }
 
