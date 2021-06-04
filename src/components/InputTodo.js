@@ -5,7 +5,6 @@ import {ADD_TODO} from "../constants/ActionTypes";
 export function InputTodo() {
     const [newTodo, setNewTodo] = useState("");
     const dispatch  = useDispatch();
-    // const todos = useSelector(state => state.todosReducer);
 
     const handleSubmit = (e) => {
         if (e.key === "Enter" && newTodo.trim() !== "") {
