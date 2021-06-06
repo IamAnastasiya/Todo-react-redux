@@ -1,5 +1,6 @@
 import {useSelector, useDispatch} from "react-redux";
-import {SET_FILTER, DELETE_COMPLETED} from "../constants/ActionTypes";
+import {ALL, COMPLETED, ACTIVE} from "../constants/filterValues";
+import {deleteCompleted, setFilter} from "../actions";
 
 export function Footer() {
 
@@ -17,16 +18,10 @@ export function Footer() {
         return count;
     }, 0);
 
-
-    const handleClick = (e, filterOption) => {
+    const handleClick = (e, filter) => {
         e.preventDefault();
-        dispatch({type: SET_FILTER, filterOption: filterOption})
+        dispatch(setFilter(filter))
     };
-
-    const deleteCompleted = () => {
-        dispatch({type: DELETE_COMPLETED})
-    };
-
 
     return (
         <footer className="footer">
@@ -38,9 +33,9 @@ export function Footer() {
                 <li>
                     <a
                         href="/"
-                        className={filter === "all" ? "selected" : ""}
+                        className={filter === ALL ? "selected" : ""}
                         onClick={(e) => {
-                            handleClick(e, "all");
+                            handleClick(e, ALL);
                         }}
                     >
                         All
@@ -49,9 +44,9 @@ export function Footer() {
                 <li>
                     <a
                         href="/active"
-                        className={filter === "active" ? "selected" : ""}
+                        className={filter === ACTIVE ? "selected" : ""}
                         onClick={(e) => {
-                            handleClick(e, "active");
+                            handleClick(e, ACTIVE);
                         }}
                     >
                         Active
@@ -60,17 +55,15 @@ export function Footer() {
                 <li>
                     <a
                         href="/completed"
-                        className={filter === "completed" ? "selected" : ""}
-                        onClick={(e) => {
-                            handleClick(e, "completed");
-                        }}
+                        className={filter === COMPLETED ? "selected" : ""}
+                        onClick={(e) => handleClick(e, COMPLETED)}
                     >
                         Completed
                     </a>
                 </li>
             </ul>
             {completedCount > 0 && (
-                <button className="clear-completed" onClick={deleteCompleted}>
+                <button className="clear-completed" onClick={()=>dispatch(deleteCompleted())}>
                     Clear completed
                 </button>
             )}

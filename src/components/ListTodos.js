@@ -1,5 +1,6 @@
 import { TodoItem } from "./TodoItem";
 import {useSelector} from "react-redux";
+import {COMPLETED, ACTIVE} from "../constants/filterValues";
 
 export function ListTodos() {
 
@@ -8,9 +9,9 @@ export function ListTodos() {
 
     let filteredTodos = todos.filter((todo) => {
             switch (filter) {
-                case "active":
+                case ACTIVE:
                     return !todo.completed;
-                case "completed":
+                case COMPLETED:
                     return todo.completed;
                 default:
                     return todo;

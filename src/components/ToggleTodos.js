@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {TOGGLE_ALL_TODOS} from "../constants/ActionTypes";
+import {toggleAll} from "../actions";
 
 export function ToggleTodos() {
     const todos = useSelector(state => state.todosReducer);
@@ -12,27 +11,19 @@ export function ToggleTodos() {
     }, 0);
 
     const isCompletedAll = todos.length === completedCount;
-    const [checked, setChecked] = useState(isCompletedAll);
-
-    useEffect(() => {
-        setChecked(isCompletedAll);
-    }, [isCompletedAll])
-
     let allToggled = todos.every((todo) => todo.completed);
-
-    const toggleAllTodos = () => {
-        dispatch({type: TOGGLE_ALL_TODOS, allToggled: allToggled})
-    }
 
     return (<>
         <input
-            checked={checked}
+            checked={isCompletedAll}
             id="toggle-all"
             className="toggle-all"
             type="checkbox"
-            onChange={(e) => setChecked(checked)}
+            onChange={() => dispatch(toggleAll(!isCompletedAll))}
         />
-        <label htmlFor="toggle-all" onClick={toggleAllTodos}>
+        <label
+            htmlFor="toggle-all"
+            onClick={()=>dispatch(toggleAll(allToggled))}>
             Mark all as complete
         </label>
     </>)

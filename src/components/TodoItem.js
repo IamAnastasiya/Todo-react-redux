@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import {useDispatch} from "react-redux";
-import {TOGGLE_TODO, DELETE_TODO, UPDATE_TODO} from "../constants/ActionTypes";
+import {deleteTodo, toggleTodo, updateTodo} from "../actions";
+
 
 export function TodoItem({ todo }) {
     const dispatch  = useDispatch();
@@ -16,18 +17,6 @@ export function TodoItem({ todo }) {
         }
     }, [editing]);
 
-    const deleteTodo = (id) => {
-        dispatch({type: DELETE_TODO, id: id})
-    }
-
-    const toggleTodo = (id) => {
-        dispatch({type: TOGGLE_TODO, id: id})
-    }
-
-    const updateTodo = (id, value) => {
-        dispatch({type: UPDATE_TODO, id: id, text: value})
-    }
-
     return (
         <li className={`${classNameCompleted} ${classNameEditing}`}>
             <div className="view">
@@ -37,7 +26,7 @@ export function TodoItem({ todo }) {
                     checked={todo.completed}
                     value={true}
                     id={todo.id}
-                    onChange={(e) => toggleTodo(e.currentTarget.id)}
+                    onChange={() => dispatch(toggleTodo(todo.id))}
                 />
                 <label
                     onDoubleClick={() => {
@@ -50,7 +39,7 @@ export function TodoItem({ todo }) {
                     type="button"
                     id={todo.id}
                     className="destroy"
-                    onClick={(e) => deleteTodo(e.currentTarget.id)}
+                    onClick={(e) => dispatch(deleteTodo(e.currentTarget.id))}
                 > </button>
             </div>
             <input
@@ -59,7 +48,7 @@ export function TodoItem({ todo }) {
                 className="edit"
                 onBlur={() => {
                     setEditing(false);
-                    updateTodo(todo.id, value);
+                    dispatch(updateTodo(todo.id, value));
                 }}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}

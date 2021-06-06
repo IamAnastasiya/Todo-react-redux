@@ -1,23 +1,18 @@
 import { useState } from "react";
 import {useDispatch} from "react-redux";
-import {ADD_TODO} from "../constants/ActionTypes";
+import {addTodo} from "../actions";
 
 export function InputTodo() {
     const [newTodo, setNewTodo] = useState("");
     const dispatch  = useDispatch();
-    // const todos = useSelector(state => state.todosReducer);
 
     const handleSubmit = (e) => {
         if (e.key === "Enter" && newTodo.trim() !== "") {
             e.preventDefault();
-            addTodo();
+            dispatch(addTodo(newTodo))
             setNewTodo("");
         }
     };
-
-    const addTodo = () => {
-        dispatch({type: ADD_TODO, id: Math.random(), text: newTodo})
-    }
 
     return (
         <input
